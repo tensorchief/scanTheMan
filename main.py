@@ -1,10 +1,17 @@
+from flask import Flask
 import subprocess
 import os
 import shutil
 
-def main(directory='.scan/'):
+
+app = Flask(__name__)
+
+
+@app.route('/')
+def main():
 
     # Create out dir
+    directory = '.scan/'
     if os.path.exists(directory):
         shutil.rmtree(directory)
     os.mkdir(directory)
@@ -24,9 +31,10 @@ def main(directory='.scan/'):
     subprocess.check_output(command,
                             stderr=subprocess.STDOUT)
 
+    return '', 204
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    main()
+    app.run()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
