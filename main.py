@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_file
 import subprocess
 import os
 import shutil
@@ -7,7 +7,7 @@ import shutil
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/api/v1.0/scan')
 def main():
 
     # Create out dir
@@ -31,7 +31,14 @@ def main():
     subprocess.check_output(command,
                             stderr=subprocess.STDOUT)
 
-    return '', 204
+    # convert to PDF
+    command = ['convert',
+               f'{directory}*.tiff',
+               f'{directory}outfile.pdf']
+    subprocess.check_output(command,
+                            stderr=subprocess.STDOUT)
+
+    return send_file(f'{directory}outfile.pdf', attachment_filename='outfile.pdf')
 
 
 # Press the green button in the gutter to run the script.
