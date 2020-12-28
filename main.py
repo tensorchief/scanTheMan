@@ -10,7 +10,7 @@ def main(name):
                '--page-width', '210',
                '--page-height', '297',
                '--ald=yes',
-               '-d', 'fujitsu:ScanSnap iX500:1201996',
+               '--device-name', 'fujitsu:ScanSnap iX500:1201996',
                '--batch=./%02d.tiff']
     subprocess.check_output(command,
                             stderr=subprocess.STDOUT)
