@@ -8,12 +8,13 @@
     <!-- production version, optimized for size and speed -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> -->
 
+    <link rel="icon" href="<%= BASE_URL %>static/favicon.ico">
 </head>
 <body>
-<div id="app">
-    {{ who }}
-    <scan-button title="Scan"/>
-</div>
+    <div id="app">
+        {{ who }}
+        <scan-button title="Scan"/>
+    </div>
 
     <script src="/static/js/app.js"></script>
 </body>
