@@ -1,5 +1,5 @@
 <template>
-  <a target="_blank" v-bind:href="scan">{{ title }}</a>
+  <b-button target="_blank" v-bind:href="scan">{{ title }}</b-button>
 </template>
 
 <script>
