@@ -9,7 +9,7 @@ export default {
   props: ['title'],
   computed: {
     scan () {
-      return `${axios.defaults.baseURL}api/v1.0/scan`
+      return `${axios.defaults.baseURL}api/v1.0/scan?r=${new Date().getTime()}`
     }
   }
 }
