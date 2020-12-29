@@ -1,10 +1,15 @@
-from flask import Flask, send_file
+from flask import Flask, send_file, render_template
 import subprocess
 import os
 import shutil
 
 
 app = Flask(__name__)
+
+
+@app.route('/')
+def index():
+    return render_template('index.html', who='Snapper')
 
 
 @app.route('/api/v1.0/scan')
