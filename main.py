@@ -4,12 +4,12 @@ import os
 import shutil
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='dist', static_url_path='')
 
 
 @app.route('/')
 def index():
-    return send_file('templates/index.html')
+    return send_file('dist/index.html')
 
 
 @app.route('/api/v1.0/scan')
