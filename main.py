@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', who='Snapper')
+    return send_file('templates/index.html')
 
 
 @app.route('/api/v1.0/scan')
