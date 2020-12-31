@@ -1,10 +1,16 @@
-from flask import Flask, send_file, render_template
+from flask import Flask, send_file, request
+from flask_cors import CORS
 import subprocess
 import os
 import shutil
 
-
 app = Flask(__name__, static_folder='dist', static_url_path='')
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+sources = [
+    {'value': 'ADF Duplex', 'text': 'duplex'},
+    {'value': 'ADF Front', 'text': 'front'}
+]
 
 
 @app.route('/')
@@ -12,8 +18,15 @@ def index():
     return send_file('dist/index.html')
 
 
+@app.route('/api/options')
+def get_options():
+    return {'sources': sources}
+
+
 @app.route('/api/v1.0/scan')
 def main():
+    if request.args.get('source') and request.args.get('source') not in [item['value'] for item in sources]:
+        return 'Invalid source', 400
 
     # Create out dir
     directory = '.scan/'
@@ -25,7 +38,7 @@ def main():
     command = ['scanimage',
                '--format', 'tiff',
                '--resolution', '300',
-               '--source', 'ADF Duplex',
+               '--source', request.args.get('source', sources[0]['value']),
                '--page-width', '210',
                '--page-height', '297',
                '--ald=yes',
@@ -49,4 +62,3 @@ def main():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     app.run()
-

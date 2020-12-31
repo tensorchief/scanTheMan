@@ -16,16 +16,20 @@ export default {
   props: ['title'],
   computed: {
     scan () {
-      return `${axios.defaults.baseURL}api/v1.0/scan?r=${new Date().getTime()}`
+      return `${axios.defaults.baseURL}api/v1.0/scan` +
+        `?r=${new Date().getTime()}` +
+        `&source=${this.opts.source}`
     }
+  },
+  mounted: function () {
+    axios.get('/api/options').then(response => {
+      this.sources = response.data.sources
+      this.opts.source = response.data.sources[0].value
+    })
   },
   data: function () {
     return {
-      sources: [
-        { value: null, text: 'Select one' },
-        { value: 'ADF Duplex', text: 'duplex' },
-        { value: 'ADF Front', text: 'front' }
-      ],
+      sources: undefined,
       opts: {
         source: null
       }
