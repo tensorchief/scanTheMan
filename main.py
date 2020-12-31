@@ -9,7 +9,8 @@ cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 sources = [
     {'value': 'ADF Duplex', 'text': 'duplex'},
-    {'value': 'ADF Front', 'text': 'front'}
+    {'value': 'ADF Front', 'text': 'front'},
+    {'value': 'ADF Back', 'text': 'back'}
 ]
 
 
@@ -46,8 +47,14 @@ def main():
                f'--batch={directory}%02d.tiff']
 
     # scan
-    subprocess.check_output(command,
+    result = subprocess.run(command,
                             stderr=subprocess.STDOUT)
+    if result.returncode:
+        if result.returncode == 7:
+            return 'Document feeder out of documents.', 502
+        if result.returncode == 1:
+            return 'Device not found.', 503
+        return '', 500
 
     # convert to PDF
     command = ['convert',
